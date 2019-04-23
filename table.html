@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="{CHARSET}">
+		<title>table的拖拽和滚动</title>
+		<style>
+			.fileDirectory {
+				margin: 5px 0;
+				width: 800px;
+				height: 150px;
+				border: 1px solid #000;
+				overflow: hidden;
+			}
+			
+			.fileDirTable tr.active,
+			.fileDirTable tr:not(nth-child(1)):active {
+				background: #0589e0;
+			}
+			
+			.fileDirTh>th {
+				position: relative;
+				word-break: keep-all;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 50px;
+				padding: 0 10px;
+				text-align: left;
+			}
+			
+			.fileDirTh>th>i {
+				position: absolute;
+				text-align: center;
+				top: 6px;
+				left: 0;
+				right: 0;
+			}
+			
+			.fileDirTh>th>span {
+				position: absolute;
+				top: 0;
+				right: 0;
+				display: inline-block;
+				width: 10px;
+				height: 100%;
+				background: #003977;
+				cursor: col-resize;
+				text-align: center;
+			}
+			
+			.fileDirTh>th>span:after {
+				content: "";
+				display: inline-block;
+				width: 4px;
+				height: 100%;
+				background: #09254A;
+			}
+			.fileDirTableBody {
+				position: relative;
+				width: 100%;
+				height: calc(100% - 40px);
+				padding-bottom: 80px;
+				/*给文件目录留空白位置，保证鼠标右键可以点击空白地方的*/
+				overflow-y: scroll;
+				cursor: default;
+			}
+			
+			.fileDirTableBody tr:hover {
+				background: #0589E0;
+			}
+			
+			.fileDirTableBody tr.active,
+			.fileDirTableBody tr.ctrlActive {
+				box-shadow: 0px 0px 1px #fdfdfd inset;
+				background: #0589E0;
+			}
+			
+			.fileDirTable td {
+				padding-right:10px;
+				word-break: keep-all;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 50px;
+			}
+			.fileDirTable .filename,.progressFileName{
+				position: relative;
+    			padding-left: 34px;
+			}
+			.fileDirTable .filename>span,.progressFileName>span{
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    background: #09254A;
+			    height: 100%;
+			    width: 28px;
+			    padding-right: 4px;
+			}
+			.fileDirTable .filename>span>img,.progressFileName>span>img{
+			    margin: 0 4px;
+			    width: 90%;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<section class=" fileDirectory moudelBgColor borderRadius6">
+				<table class="fileDirTable" border="0" cellspacing="0" cellpadding="0">
+					<colgroup class="fileCol">
+						<col width="170px"></col>
+						<col width="170px"></col>
+						<col width="170px"></col>
+						<col width="170px"></col>
+						<col width="170px"></col>
+					</colgroup>
+					<thead>
+						<tr class="fileDirTh">
+							<th class="fileName ascendingSort">名称 <span class="colResize" name="0"></span></th>
+							<th class="fileSize">大小<span class="colResize" name="1"></span></th>
+							<th class="fileType">类型<span class="colResize" name="2"></span></th>
+							<th class="fileTime">修改时间<span class="colResize" name="3"></th>
+							<th>属性<span class="colResize" name="4"></th>
+							<th>所有者</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="fileDirTableBody fileContent" webkitdirectory>
+					<div class="parentDir" hidden="hidden">..</div>
+					<table class="fileDirTable" border="0" cellspacing="0" cellpadding="0">
+						<colgroup class="fileColBody">
+							<col width="170px"></col>
+							<col width="170px"></col>
+							<col width="170px"></col>
+							<col width="170px"></col>
+							<col width="170px"></col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<td>大王</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>清风</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>悦悦月愿意苏打粉</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+							<tr>
+								<td>1213124</td>
+								<td>13123124124</td>
+								<td>大使馆</td>
+								<td>125215</td>
+								<td>wadasdfa</td>
+								<td>zxczxv</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<!--显示文件E-->
+		</div>
+	</body>
+	<script src="js/jquery-1.12.3.js"></script>
+	<script>
+	var clienxMin=$(".fileDirTable").offset().left;
+	var clienxMax=$(".fileContent").width();
+	$(".colResize").mousedown(function(){
+		$(this).css({
+			backgroundImage: "-webkit-linear-gradient(left, #096bb1, #003977)"
+		}).parent().css({
+			background:"#096bb1"
+		});
+		isMove=true;
+		var thisMove=$(this);
+		if(isMove){
+			$(document).bind("mousemove",function(e){
+				var event=e||window.event;
+				indexCol=thisMove.attr("name");
+
+				var  width=thisMove.parent().width();
+				
+				var  widthSpan=thisMove.width();
+				var  left=thisMove.parent().offset().left;
+		 		var newLeft=event.clientX;
+		 		if(newLeft>=clienxMin&&newLeft<=clienxMax){
+		 			var newWidth=newLeft-left;
+			 		if(newWidth>=50){
+			 			$(".fileCol>col").eq(indexCol).attr("width",newWidth+"px");
+			 			$(".fileColBody>col").eq(indexCol).attr("width",newWidth+"px");
+			 		}
+		 		}
+			})
+		}
+	});
+	$(document).mouseup(function(){
+        //鼠标弹起时给div取消事件
+        isMove=false;
+        $(document).unbind("mousemove");
+        $(" .colResize").css({
+        	background:"transparent"
+        });
+        $(" .fileDirTh th").css({
+			background:"transparent"
+		})
+    });
+	</script>
+</html>
